@@ -1,31 +1,24 @@
 #!/bin/bash
 
 input=input2.txt
-
-# A = opp plays rock
-# B = paper
-# C = scissors
-
-# X = you play rock
-# Y = paper
-# Z = scissors
-
 score=0
 
 while IFS= read -r line; do
-	if [ "$line" = "A Y" ] || [ "$line" = "B Z" ] || [ "$line" = "C X" ]; then
-		score=$((score+6))
-	elif [ "$line" = "A X" ] || [ "$line" = "B Y" ] || [ "$line" = "C Z" ]; then
+
+	if [ ${line:2:1} = "Y" ]; then
 		score=$((score+3))
+	elif [ ${line:2:1} = "Z" ]; then
+		score=$((score+6))
 	fi
 
-	if [ ${line:2:1} = "X" ]; then
+	if [ "$line" = "A Y" ] || [ "$line" = "B X" ] || [ "$line" = "C Z" ]; then
 		((score++))
-	elif [ ${line:2:1} = "Y" ]; then
+	elif [ "$line" = "A Z" ] || [ "$line" = "B Y" ] || [ "$line" = "C X" ]; then
 		score=$((score+2))
-	elif [ ${line:2:1} = "Z" ]; then
+	else
 		score=$((score+3))
 	fi
+	echo $score
 done < "$input" && echo $score
  
 
